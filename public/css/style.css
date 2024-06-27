@@ -1,3 +1,124 @@
-.test{
-  background: gold;
+/* header */
+.header{
+  border-bottom: solid rgb(97, 177, 214);
+  padding: 10px;
+}
+
+.header .inner-logo img {
+  max-height: 40px;
+  max-width: 120px;
+}
+
+.header .inner-menu > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.header .inner-menu > ul > li {
+  margin-left: 20px;
+}
+/* end header */
+
+
+/* footer */
+.footer {
+  background: #144c54;
+  color: #fff;
+  text-align:  center;
+  padding: 10px;
+}
+/* end footer */
+
+/* Định dạng cho container */
+.container.my-3 {
+  margin-top: 1rem; /* Khoảng cách phía trên */
+  margin-bottom: 1rem; /* Khoảng cách phía dưới */
+}
+
+/* Định dạng cho hàng */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+/* Định dạng cho cột */
+.col-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.col-4 {
+  flex: 0 0 33.333333%;
+  max-width: 33.333333%;
+}
+
+.mb-3 {
+  margin-bottom: 1rem; /* Khoảng cách phía dưới */
+}
+
+/* Định dạng cho tiêu đề box */
+.box-head {
+  padding: 1rem;
+  background-color: #f8f9fa; /* Màu nền nhạt */
+  border-bottom: 1px solid #dee2e6; /* Đường viền phía dưới */
+}
+
+/* Định dạng cho tiêu đề bên trong box */
+.inner-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #343a40; /* Màu chữ đen đậm */
+}
+
+/* Định dạng cho item sản phẩm */
+.product-item {
+  border: 1px solid #dee2e6; /* Đường viền bao quanh */
+  border-radius: 0.25rem; /* Bo góc nhẹ */
+  overflow: hidden; /* Ẩn phần thừa */
+  background-color: #fff; /* Màu nền trắng */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+}
+
+/* Định dạng cho hình ảnh bên trong sản phẩm */
+.inner-image img {
+  width: 100%; /* Chiếm toàn bộ chiều rộng */
+  height: auto; /* Tự động điều chỉnh chiều cao theo tỉ lệ */
+  display: block;
+}
+
+/* Định dạng cho nội dung bên trong sản phẩm */
+.inner-content {
+  padding: 1rem;
+}
+
+.inner-content h3.inner-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  color: #343a40; /* Màu chữ đen đậm */
+}
+
+.inner-price-new {
+  font-size: 1.5rem;
+  color: #28a745; /* Màu chữ xanh */
+  margin: 0 0 0.5rem 0;
+}
+
+.inner-price-old {
+  font-size: 1.25rem;
+  color: #6c757d; /* Màu chữ xám */
+  text-decoration: line-through; /* Gạch ngang */
+  margin: 0 0 0.5rem 0;
+}
+
+.inner-discount {
+  font-size: 1rem;
+  color: #dc3545; /* Màu chữ đỏ */
 }
