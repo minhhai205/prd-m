@@ -4,13 +4,10 @@ const searchHelper = require("../../helpers/search");
 // [GET] /admin/products
 module.exports.index = async(req, res) => {
 
-  // -Tính năng lọc trạng thái
+  // -Tính năng lọc trạng thái và tìm kiếm
   const filterStatus = filterStatusHelper(req.query);
   const objectSearch = searchHelper(req.query);
-  // - End tính năng lọc trạng thái
 
-
-  // Truy vấn data trong database
   let find = {
     deleted: false
   };
@@ -23,8 +20,9 @@ module.exports.index = async(req, res) => {
     find.title = objectSearch.regex;
   }
 
+  // End tính năng lọc trạng thái và tìm kiếm
+  
   const products = await Product.find(find);
-  // End truy vấn data
 
   
   // console.log(products);
