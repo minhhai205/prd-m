@@ -3,6 +3,7 @@ const Product = require("../../models/product.model");
 // [GET] /admin/products
 module.exports.index = async(req, res) => {
 
+  // -Tính năng lọc trạng thái
   let filterStatus = [
     {
       name: "Tất cả",
@@ -28,7 +29,10 @@ module.exports.index = async(req, res) => {
     const index = filterStatus.findIndex(item => item.status == "");
     filterStatus[index].class = "active";
   }
-  
+  // - End tính năng lọc trạng thái
+
+
+  // Truy vấn data trong database
   let find = {
     deleted: false
   };
@@ -37,13 +41,23 @@ module.exports.index = async(req, res) => {
     find.status = req.query.status;
   }
   
-  const products = await Product.find(find);
+  let keyword = "";
+  if(req.query.keyword){
+    keyword = req.query.keyword;
+    const regex = new RegExp(keyword, "i"); // Tim kiếm tối ưu
+    find.title = regex;
+  }
 
+  const products = await Product.find(find);
+  // End truy vấn data
+
+  
   // console.log(products);
 
   res.render("admin/pages/products/index", {
     pageTitle : "Danh sách sản phẩm",
     products: products,
-    filterStatus: filterStatus
+    filterStatus: filterStatus,
+    keyword: keyword
   });
 }
