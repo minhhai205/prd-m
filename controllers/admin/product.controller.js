@@ -80,7 +80,9 @@ module.exports.changeMulti = async(req, res) => {
 module.exports.deleteItem = async(req, res) => {
   const id = req.params.id;
 
-  await Product.deleteOne({_id: id}); // cập nhập database
+  // await Product.deleteOne({_id: id}); // Xóa vĩnh viễn
+
+  await Product.updateOne({_id: id}, {deleted: true}); // Xóa mềm
   
   res.redirect("back"); 
 } 
