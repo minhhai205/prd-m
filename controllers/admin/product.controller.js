@@ -82,7 +82,10 @@ module.exports.deleteItem = async(req, res) => {
 
   // await Product.deleteOne({_id: id}); // Xóa vĩnh viễn
 
-  await Product.updateOne({_id: id}, {deleted: true}); // Xóa mềm
+  await Product.updateOne({_id: id}, {
+    deleted: true,
+    deletedAt: new Date()
+  }); // Xóa mềm
   
   res.redirect("back"); 
 } 
