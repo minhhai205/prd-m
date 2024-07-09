@@ -25,7 +25,7 @@ module.exports.index = async(req, res) => {
   // Panigation
   let objectPagination = {
     currentPage: 1,
-    limitItems: 4
+    limitItems: 8
   }
 
   const countProducts = await Product.countDocuments(find);
@@ -54,6 +54,8 @@ module.exports.changeStatus = async(req, res) => {
 
   await Product.updateOne({_id: id}, {status: status}); // cập nhập database
   
+  req.flash("success", "Cập nhập trạng thái sản phẩm thành công!");
+  
   res.redirect("back"); // tự động chuyên hướng về lại trang trc đó
 } 
 
@@ -65,15 +67,18 @@ module.exports.changeMulti = async(req, res) => {
   switch (type){
     case "active":
       await Product.updateMany({_id:  { $in: ids} }, { status: "active"});
+      req.flash("success", "Cập nhập trạng thái sản phẩm thành công!");
       break;
     case "inactive":
       await Product.updateMany({_id:  { $in: ids} }, { status: "inactive"});
+      req.flash("success", "Cập nhập trạng thái sản phẩm thành công!");
       break;
     case "delete-all":
       await Product.updateMany({_id:  { $in: ids} }, { 
         deleted: true,
         deletedAt: new Date()
       });
+      req.flash("success", "Xóa sản phẩm thành công!");
       break;
     case "change-position":
       for(const item of ids){
@@ -81,6 +86,7 @@ module.exports.changeMulti = async(req, res) => {
         position = parseInt(position);
         await Product.updateOne({_id: id}, {position: position}); 
       }
+      req.flash("success", "Thay đổi vị trí sản phẩm thành công!");
       break;
     default:
       break;
@@ -99,6 +105,8 @@ module.exports.deleteItem = async(req, res) => {
     deleted: true,
     deletedAt: new Date()
   }); // Xóa mềm
-  
+
+  req.flash("success", "Xóa sản phẩm thành công!");
+
   res.redirect("back"); 
 } 
