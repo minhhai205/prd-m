@@ -1,31 +1,16 @@
 const systemConfig = require("../../config/system");
 const ProductCategory = require("../../models/product-category.model");
+const createTreeHelper = require("../../helpers/createTree");
 
 // [GET] /admin/products-category
 module.exports.index = async(req, res) => {
   let find = {
     deleted: false
   };
-  let count = 1;
-  function createTree(arr, parentId = ""){
-    const tree = [];
-    arr.forEach(item => {
-      if(item.parent_id === parentId){
-        const newItem = item;
-        item.index = count; ++count;
-        const children = createTree(arr, item.id);
-        if(children.length > 0) {
-          newItem.children = children;
-        }
-        tree.push(newItem);
-      }
-    });
-    return tree;
-  }
-
+  
   const records = await ProductCategory.find(find);
 
-  const newRecords = createTree(records);
+  const newRecords = createTreeHelper.createTree(records);
 
 
   res.render("admin/pages/products-category/index", {
@@ -40,24 +25,9 @@ module.exports.create = async(req, res) => {
     deleted: false,
   }
 
-  function createTree(arr, parentId = ""){
-    const tree = [];
-    arr.forEach(item => {
-      if(item.parent_id === parentId){
-        const newItem = item;
-        const children = createTree(arr, item.id);
-        if(children.length > 0) {
-          newItem.children = children;
-        }
-        tree.push(newItem);
-      }
-    });
-    return tree;
-  }
-
   const records = await ProductCategory.find(find);
 
-  const newRecords = createTree(records);
+  const newRecords = createTreeHelper.createTree(records);
 
   res.render("admin/pages/products-category/create", {
     pageTitle : "Tạo danh mục sản phẩm",
