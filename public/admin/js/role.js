@@ -43,3 +43,23 @@ if(tablePermissions){
   });
 }
 // End Permissions
+
+// Permisions Data Default
+const dataRocords = document.querySelector("[data-records]");
+if(dataRocords){
+  const tablePermissions = document.querySelector("[table-permissions]");
+  const records = JSON.parse(dataRocords.getAttribute("data-records"));
+
+  records.forEach((record, index) => {
+    const permissions = record.permissions;
+
+    permissions.forEach(permission => {
+      const row = tablePermissions.querySelector(`[data-name="${permission}"]`);
+      const input = row.querySelectorAll("input")[index];
+
+      input.checked = true;
+    });
+  });
+
+}
+// End Permisions Data Default
