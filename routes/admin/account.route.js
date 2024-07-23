@@ -14,7 +14,7 @@ router.get('/create', controller.create);
 
 router.post(
   '/create', 
-  upload.single("thumbnail"), 
+  upload.single("avatar"), 
   uploadCloud.upload,
   validate.createPost,
   controller.createPost
@@ -24,7 +24,7 @@ router.get("/edit/:id", controller.edit);
 
 router.patch(
   '/edit/:id', 
-  upload.single("thumbnail"), 
+  upload.single("avatar"), 
   uploadCloud.upload,
   validate.editPatch, 
   controller.editPatch
