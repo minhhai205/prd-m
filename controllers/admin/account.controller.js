@@ -9,8 +9,16 @@ module.exports.index = async(req, res) => {
     deleted: false,
   }
 
-  const records = await Account.find(find);
+  const records = await Account.find(find).select("-password -token");
 
+  for(const record of records){
+    const role = await Role.findOne({
+      deleted: false,
+      _id: record.role_id,
+    });
+    record.role = role;
+  }
+  
   res.render("admin/pages/accounts/index", {
     pageTitle : "Danh sách tài khoản",
     records: records,
