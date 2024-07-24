@@ -5,7 +5,7 @@ module.exports.loginPost = (req, res, next)=> {
     return;
   }
 
-  if(!req.body.pasword){
+  if(!req.body.password){
     req.flash("error", "Vui lòng nhập mật khẩu!");
     res.redirect("back");
     return;
