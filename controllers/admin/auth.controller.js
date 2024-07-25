@@ -4,9 +4,15 @@ const md5 = require('md5');
 
 // [GET] /admin/auth/login
 module.exports.login = (req, res) => {
-  res.render("admin/pages/auth/login", {
-    pageTitle : "Trang đăng nhập"
-  });
+  // check nếu đã tồn tại token mà vẫn vào trang đăng nhập thì cho đăng nhập về trang dashboard
+  if(req.cookies.token){
+    res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
+  }
+  else{
+    res.render("admin/pages/auth/login", {
+      pageTitle : "Trang đăng nhập"
+    });
+  }
 }
 
 // [POST] /admin/auth/login
