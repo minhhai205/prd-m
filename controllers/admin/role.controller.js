@@ -3,6 +3,12 @@ const systemConfig = require("../../config/system");
 
 // [GET] /admin/roles
 module.exports.index = async(req, res) => {
+  if(!res.locals.role.permissions.includes("roles_view")) {
+    req.flash("error", "");
+    req.flash("error", "Bạn không có quyền truy cập trang phân quyền!");
+    res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
+    return;
+  }
   let find = {
     deleted: false,
   }
@@ -17,6 +23,11 @@ module.exports.index = async(req, res) => {
 
 // [GET] /admin/roles/create
 module.exports.create = async(req, res) => {
+  if(!res.locals.role.permissions.includes("roles_creat")) {
+    req.flash("error", "Bạn không có quyền thêm mới nhóm quyền!");
+    res.redirect(`${systemConfig.prefixAdmin}/roles`);
+    return;
+  }
 
   res.render("admin/pages/roles/create", {
     pageTitle : "Tạo nhóm quyền",
@@ -32,8 +43,13 @@ module.exports.createPost = async(req, res) => {
   
 }
 
-// [GET] /admin/permissions
+// [GET] /admin/roles/permissions
 module.exports.permissions = async(req, res) => {
+  if(!res.locals.role.permissions.includes("roles_permisions")) {
+    req.flash("error", "Bạn không có quyền truy cập trang phân quyền!");
+    res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
+    return;
+  }
   let find = {
     deleted: false,
   }

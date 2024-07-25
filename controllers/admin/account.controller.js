@@ -5,6 +5,12 @@ const md5 = require('md5');
 
 // [GET] /admin/accounts
 module.exports.index = async(req, res) => {
+  if(!res.locals.role.permissions.includes("accounts_view")) {
+    req.flash("error", "");
+    req.flash("error", "Bạn không có quyền truy cập trang danh sách tài khoản!");
+    res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
+    return;
+  }
   let find = {
     deleted: false,
   }
@@ -27,6 +33,11 @@ module.exports.index = async(req, res) => {
 
 // [GET] /admin/accounts/create
 module.exports.create = async(req, res) => {
+  if(!res.locals.role.permissions.includes("accounts_creat")) {
+    req.flash("error", "Bạn không có quyền thêm mới tài khoản!");
+    res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+    return;
+  }
   const roles = await Role.find({
     deleted: false,
   });
@@ -62,6 +73,11 @@ module.exports.createPost = async(req, res) => {
 
 // [GET] /admin/accounts/edit/:id
 module.exports.edit = async(req, res) => {
+  if(!res.locals.role.permissions.includes("accounts_edit")) {
+    req.flash("error", "Bạn không có quyền chỉnh sửa tài khoản!");
+    res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+    return;
+  }
   try{
     const find = {
       deleted: false,

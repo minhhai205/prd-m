@@ -9,6 +9,12 @@ const paginationHelper = require("../../helpers/pagination");
 const createTreeHelper = require("../../helpers/createTree");
 // [GET] /admin/products
 module.exports.index = async(req, res) => {
+  if(!res.locals.role.permissions.includes("products_view")) {
+    req.flash("error");
+    req.flash("error", "Bạn không có quyền truy cập trang sản phẩm!");
+    res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
+    return;
+  }
 
   // -Tính năng lọc trạng thái và tìm kiếm
   const filterStatus = filterStatusHelper(req.query);
@@ -65,6 +71,11 @@ module.exports.index = async(req, res) => {
 
 // [PATH] /admin/products/change-status/:status/:id
 module.exports.changeStatus = async(req, res) => {
+  if(!res.locals.role.permissions.includes("products_edit")) {
+    req.flash("error", "Bạn không có quyền chỉnh sửa sản phẩm!");
+    res.redirect("back");
+    return;
+  }
   const status = req.params.status;
   const id = req.params.id;
 
@@ -77,6 +88,11 @@ module.exports.changeStatus = async(req, res) => {
 
 // [PATH] /admin/products/change-multi
 module.exports.changeMulti = async(req, res) => {
+  if(!res.locals.role.permissions.includes("products_edit")) {
+    req.flash("error", "Bạn không có quyền chỉnh sửa sản phẩm!");
+    res.redirect("back");
+    return;
+  }
   const type = req.body.type;
   const ids = req.body.ids.split(", ");
 
@@ -113,6 +129,11 @@ module.exports.changeMulti = async(req, res) => {
 
 // [DELETE] /admin/products/delete/:id
 module.exports.deleteItem = async(req, res) => {
+  if(!res.locals.role.permissions.includes("products_edit")) {
+    req.flash("error", "Bạn không có quyền chỉnh sửa sản phẩm!");
+    res.redirect("back");
+    return;
+  }
   const id = req.params.id;
 
   // await Product.deleteOne({_id: id}); // Xóa vĩnh viễn
@@ -129,6 +150,11 @@ module.exports.deleteItem = async(req, res) => {
 
 // [GET] /admin/products/create
 module.exports.create = async(req, res) => {
+  if(!res.locals.role.permissions.includes("products_creat")) {
+    req.flash("error", "Bạn không có quyền thêm mới sản phẩm!");
+    res.redirect(`${systemConfig.prefixAdmin}/products`);
+    return;
+  }
   let find = {
     deleted: false
   };
@@ -165,6 +191,11 @@ module.exports.createPost = async(req, res) => {
 
 // [GET] /admin/products/edit/:id
 module.exports.edit = async(req, res) => {
+  if(!res.locals.role.permissions.includes("products_edit")) {
+    req.flash("error", "Bạn không có quyền chỉnh sửa sản phẩm!");
+    res.redirect(`${systemConfig.prefixAdmin}/products`);
+    return;
+  }
   try{
     const find = {
       deleted: false,
@@ -206,7 +237,7 @@ module.exports.editPatch = async(req, res) => {
   res.redirect("back");
 }
 
-// [GET] /admin/products/detaik/:id
+// [GET] /admin/products/detail/:id
 module.exports.detail = async(req, res) => {
   try{
     const find = {
