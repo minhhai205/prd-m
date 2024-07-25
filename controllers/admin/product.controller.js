@@ -150,7 +150,7 @@ module.exports.deleteItem = async(req, res) => {
 
 // [GET] /admin/products/create
 module.exports.create = async(req, res) => {
-  if(!res.locals.role.permissions.includes("products_creat")) {
+  if(!res.locals.role.permissions.includes("products_create")) {
     req.flash("error", "Bạn không có quyền thêm mới sản phẩm!");
     res.redirect(`${systemConfig.prefixAdmin}/products`);
     return;

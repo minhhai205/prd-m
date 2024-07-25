@@ -23,7 +23,7 @@ module.exports.index = async(req, res) => {
 
 // [GET] /admin/roles/create
 module.exports.create = async(req, res) => {
-  if(!res.locals.role.permissions.includes("roles_creat")) {
+  if(!res.locals.role.permissions.includes("roles_create")) {
     req.flash("error", "Bạn không có quyền thêm mới nhóm quyền!");
     res.redirect(`${systemConfig.prefixAdmin}/roles`);
     return;

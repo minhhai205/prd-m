@@ -33,7 +33,7 @@ module.exports.index = async(req, res) => {
 
 // [GET] /admin/accounts/create
 module.exports.create = async(req, res) => {
-  if(!res.locals.role.permissions.includes("accounts_creat")) {
+  if(!res.locals.role.permissions.includes("accounts_create")) {
     req.flash("error", "Bạn không có quyền thêm mới tài khoản!");
     res.redirect(`${systemConfig.prefixAdmin}/accounts`);
     return;
