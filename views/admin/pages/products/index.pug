@@ -50,6 +50,7 @@ block main
             th Giá
             th Vị trí
             th Trạng thái 
+            th Tạo bởi
             th Hành động
 
         tbody 
@@ -96,6 +97,9 @@ block main
                     button-change-status
                     class="badge badge-danger"
                   ) Dừng hoạt động
+              td
+                div #{item.createdByFullName}
+                div #{item.createdAtFormat}
               td 
                 a(
                   href=`${prefixAdmin}/products/detail/${item.id}`

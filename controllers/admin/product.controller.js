@@ -1,7 +1,9 @@
 const Product = require("../../models/product.model");
 const ProductCategory = require("../../models/product-category.model");
+const Account = require("../../models/account.model");
 
 const systemConfig = require("../../config/system");
+const moment = require("moment");
 
 const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search");
@@ -53,12 +55,25 @@ module.exports.index = async(req, res) => {
   else{
     sort.position = "desc";
   }
-
   // End Sort
 
   const products = await Product.find(find).sort(sort).limit(objectPagination.limitItems).skip(objectPagination.skip);
 
-  // console.log(products);
+  for(const item of products){
+    if(item.createdBy){
+      const accountCreated = await Account.findOne({
+        _id: item.createdBy,
+      });
+      item.createdByFullName = accountCreated.fullName;
+    }
+    else{
+      item.createdByFullName = "";
+    }
+
+    item.createdAtFormat = moment(item.createdAt).format("DD/MM/YY HH:mm:ss");
+
+  }
+
 
   res.render("admin/pages/products/index", {
     pageTitle : "Danh sách sản phẩm",
@@ -182,6 +197,8 @@ module.exports.createPost = async(req, res) => {
   else{
     req.body.position = parseInt(req.body.position);
   }
+
+  req.body.createdBy = res.locals.user.id;
 
   const product = new Product(req.body);
   await product.save();
