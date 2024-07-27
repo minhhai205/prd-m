@@ -23,6 +23,7 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  deletedBy: String,
   deletedAt: Date
 }, {
   timestamps: true //create and update at

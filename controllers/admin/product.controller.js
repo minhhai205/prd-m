@@ -167,6 +167,7 @@ module.exports.deleteItem = async(req, res) => {
 
   await Product.updateOne({_id: id}, {
     deleted: true,
+    deletedBy: res.locals.account.id,
     deletedAt: new Date()
   }); // Xóa mềm
 
