@@ -60,6 +60,7 @@ module.exports.index = async(req, res) => {
   const products = await Product.find(find).sort(sort).limit(objectPagination.limitItems).skip(objectPagination.skip);
 
   for(const item of products){
+    // Creator
     if(item.createdBy){
       const accountCreated = await Account.findOne({
         _id: item.createdBy,
@@ -72,6 +73,17 @@ module.exports.index = async(req, res) => {
 
     item.createdAtFormat = moment(item.createdAt).format("DD/MM/YY HH:mm:ss");
 
+    // Updater
+    if(item.updatedBy) {
+      const accountUpdated = await Account.findOne({
+        _id: item.updatedBy
+      });
+      item.updatedByFullName = accountUpdated.fullName;
+    } else {
+      item.updatedByFullName = "";
+    }
+
+    item.updatedAtFormat = moment(item.updatedAt).format("DD/MM/YY HH:mm:ss");
   }
 
 
@@ -243,6 +255,7 @@ module.exports.editPatch = async(req, res) => {
   req.body.discountPercentage = parseInt(req.body.discountPercentage);
   req.body.stock = parseInt(req.body.stock);
   req.body.position = parseInt(req.body.position);
+  req.body.updatedBy = res.locals.user.id;
 
   try {
     await Product.updateOne({_id: req.params.id}, req.body);

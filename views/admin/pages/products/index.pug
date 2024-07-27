@@ -51,6 +51,7 @@ block main
             th Vị trí
             th Trạng thái 
             th Tạo bởi
+            th Cập nhập
             th Hành động
 
         tbody 
@@ -100,6 +101,9 @@ block main
               td
                 div #{item.createdByFullName}
                 div #{item.createdAtFormat}
+              td
+                div #{item.updatedByFullName}
+                div #{item.updatedAtFormat}
               td 
                 a(
                   href=`${prefixAdmin}/products/detail/${item.id}`
