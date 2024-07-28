@@ -7,6 +7,16 @@ header.header
       
       .col-9
         div(class="text-right")
+          a( href=`${prefixAdmin}/profile`) 
+            img(
+              src=user.avatar alt="Avatar" class="avatar rounded-circle mr-2"
+            ) 
+          
+          a(
+            href=`${prefixAdmin}/profile`
+            class="btn btn-info btn-sm mr-2"
+          ) #{user.fullName}
+
           a(
             href=`${prefixAdmin}/auth/logout`
             class="btn btn-danger btn-sm"
