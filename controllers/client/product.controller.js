@@ -49,8 +49,25 @@ module.exports.category = async (req, res) => {
       slug: req.params.slugCategory,
     });
 
+    // Tìm các danh mục là con của danh mục productCategory trên
+    let categoryIds = [productCategory.id];
+    const findIdCategory = async(id) => {
+      const list = await ProductCategory.find({
+        parent_id: id,
+        status: "active",
+        deleted: false,
+      });
+      
+      for (const item of list) {
+        categoryIds.push(item.id)
+        await findIdCategory(item.id);
+      }
+    }
+    await findIdCategory(productCategory.id);
+    // console.log(categoryIds);
+
     const products = await Product.find({
-      product_category_id: productCategory.id,
+      product_category_id: { $in: [...categoryIds] },
       deleted: false,
       status: "active"
     }).sort({ position: "desc" });
