@@ -31,8 +31,18 @@ module.exports.detail = async (req, res) => {
     
     const product = await Product.findOne(find);
 
+    product.priceNew = ((1 - product.discountPercentage / 100) * product.price).toFixed(0); 
+
+    const category = ProductCategory.find({
+      deleted: false,
+      status: "active",
+      _id: product.product_category_id,
+    });
+
+    product.category = category;
+
     res.render("client/pages/products/detail", {
-      pageTitle : "Chi tiết sản phẩm", 
+      pageTitle : product.title, 
       product: product
     });
   } catch (error) {
