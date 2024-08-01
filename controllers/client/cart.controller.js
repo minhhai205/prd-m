@@ -1,5 +1,7 @@
 const Cart = require("../../models/cart.model");
+const Product = require("../../models/product.model");
 
+// [POST] /cart/add/:productId
 module.exports.add = async(req, res) => {
   const cartId = req.cookies.cartId;
   const productId = req.params.productId;
@@ -36,4 +38,38 @@ module.exports.add = async(req, res) => {
   //   console.log("error add product");
   // }
   res.redirect("back");
+}
+
+// [GET] /cart
+module.exports.index = async(req, res) => {
+  try {
+    const cartDetail = await Cart.findOne({
+      _id: req.cookies.cartId,
+    })
+    
+    cartDetail.totalPrice = 0;
+
+    for(const item of cartDetail.products){
+      
+      const infoProduct = await Product.findOne({
+        _id: item.product_id,
+      }).select("title thumbnail discountPercentage price stock slug");
+      
+      infoProduct.priceNew = ((1 - infoProduct.discountPercentage / 100) * infoProduct.price).toFixed(0);
+
+      item.totalPrice = infoProduct.priceNew * item.quantity;
+
+      item.infoProduct = infoProduct;
+      
+      cartDetail.totalPrice += item.totalPrice;
+
+    }
+    
+    res.render("client/pages/cart/index", {
+      pageTitle: "Giỏ hàng",
+      cartDetail: cartDetail,
+    });
+  } catch (error) {
+    console.log("lỗi giỏ hàng");
+  }
 }
