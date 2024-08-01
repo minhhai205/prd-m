@@ -34,3 +34,5 @@ header.header
               a(href="/products") Sản phẩm
               if(layoutProductCategory)
                 +sub-menu(layoutProductCategory)
+            li
+              a(href="/cart") Giỏ hàng (#{miniCart ? miniCart.products.length : 0})
