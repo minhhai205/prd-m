@@ -73,3 +73,20 @@ module.exports.index = async(req, res) => {
     console.log("lỗi giỏ hàng");
   }
 }
+
+// [DELETE] /cart/delete/product_id:
+module.exports.delete = async(req, res) => {
+  try {
+    const cartId = req.cookies.cartId;
+    const productId = req.params.product_id;
+
+    await Cart.updateOne({ _id: cartId }, {
+      $pull: { products: { product_id: productId } }
+    });
+    
+  } catch (error) {
+    console.log("xóa sản phẩm thất bại");
+  }
+
+  res.redirect("back");
+}

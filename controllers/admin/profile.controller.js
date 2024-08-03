@@ -35,7 +35,7 @@ module.exports.edit = async(req, res) => {
   }
 }
 
-// // [PATCH] /admin/accounts/edit/:id
+// [PATCH] /admin/profile/edit/
 module.exports.editPatch = async(req, res) => {
   const emailExit = await Account.findOne({
     _id: { $ne: res.locals.user.id}, 
