@@ -8,7 +8,7 @@ module.exports.index = async(req, res) => {
   }).limit(8);
 
   productsFeatured.forEach(product => {
-    product.newPrice = ((1 - product.discountPercentage / 100) * product.price).toFixed(0);
+    product.priceNew = ((1 - product.discountPercentage / 100) * product.price).toFixed(0);
   });
 
   const productsNew = await Product.find({
