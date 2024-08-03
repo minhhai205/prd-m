@@ -6,7 +6,7 @@ module.exports.add = async(req, res) => {
   const cartId = req.cookies.cartId;
   const productId = req.params.productId;
   const quantity = parseInt(req.body.quantity);
-  //try {
+  try {
     const cart = await Cart.findOne({_id : cartId});
 
     const productInCart = cart.products.find(item => item.product_id == productId);
@@ -34,9 +34,10 @@ module.exports.add = async(req, res) => {
         $push: { products: objectCart }
       });
     }
-  // } catch (error) {
-  //   console.log("error add product");
-  // }
+    req.flash("success", "Đã thêm sản phẩm vào giỏ hàng.");
+  } catch (error) {
+    req.flash("error", "Thêm sản phẩm vào giỏ hàng thất bại!");
+  }
   res.redirect("back");
 }
 
@@ -70,7 +71,7 @@ module.exports.index = async(req, res) => {
       cartDetail: cartDetail,
     });
   } catch (error) {
-    console.log("lỗi giỏ hàng");
+    res.redirect("back");
   }
 }
 
@@ -85,7 +86,7 @@ module.exports.delete = async(req, res) => {
     });
     
   } catch (error) {
-    console.log("xóa sản phẩm thất bại");
+    req.flash("error", "Xóa sản phẩm thất bại!");
   }
 
   res.redirect("back");
