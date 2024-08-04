@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const oderSchema = new mongoose.Schema({
+const orderSchema = new mongoose.Schema({
   user_id: String,
   card_id: String,
   userInfor: {
@@ -21,6 +21,6 @@ const oderSchema = new mongoose.Schema({
   timestamps: true 
 });
 
-const Order = mongoose.model("Order", orderSchema, "oders");
+const Order = mongoose.model("Order", orderSchema, "orders");
 
 module.exports = Order;
