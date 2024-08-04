@@ -39,7 +39,7 @@ module.exports.index = async(req, res) => {
 module.exports.order = async(req, res) => {
   try {
     const cartId = req.cookies.cartId;
-    const userInfor = req.body;
+    const userInfo = req.body;
 
     const cart = await Cart.findOne({_id : cartId});
     
@@ -63,7 +63,7 @@ module.exports.order = async(req, res) => {
     const dataOrder = {
       // user_id: String,
       cart_id: cartId,
-      userInfor: userInfor,
+      userInfo: userInfo,
       products: products,
     };
   
@@ -81,4 +81,37 @@ module.exports.order = async(req, res) => {
     req.flash("error", "Đạt hàng thất bại!");
     res.redirect("back");
   }
+}
+
+// [get] /checkout/success/:orderId
+module.exports.success = async(req, res) => {
+  //try {
+    const orderId = req.params.orderId;
+
+    const order = await Order.findOne({_id : orderId});
+
+    order.totalPrice = 0;
+
+    for (const product of order.products) {
+      const productInfo = await Product.findOne({
+        _id: product.product_id
+      });
+
+      product.title = productInfo.title;
+      product.thumbnail = productInfo.thumbnail;
+      product.priceNew = (product.price * (100 - product.discountPercentage)/100).toFixed(0);
+      product.totalPrice = product.priceNew * product.quantity;
+
+      order.totalPrice += product.totalPrice;
+    }
+
+    res.render("client/pages/checkout/success", {
+      pageTitle: "Đặt hàng thành công",
+      order: order
+    });
+
+  // } catch (error) {
+  //   req.flash("error", "Đặt hàng thất bại!");
+  //   res.redirect("/");
+  // }
 }
