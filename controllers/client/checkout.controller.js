@@ -58,6 +58,9 @@ module.exports.order = async(req, res) => {
       };
   
       products.push(objectProduct);
+
+      const newStock = product.stock - item.quantity;
+      await Product.updateOne({_id : item.product_id}, {stock : newStock});     
     }
 
     const dataOrder = {
