@@ -8,11 +8,14 @@ const userRoutes = require("./user.route");
 
 const middlwerreCategory = require("../../middlewares/client/catagory.middleware")
 const middlwerreCart = require("../../middlewares/client/cart.middleware");
+const middlewareUser = require("../../middlewares/client/user.middleware");
 
 module.exports = (app) => {
   app.use(middlwerreCategory.category);
 
   app.use(middlwerreCart.cart);
+
+  app.use(middlewareUser.userInfo);
 
   app.use("/", homeRoutes)
   
