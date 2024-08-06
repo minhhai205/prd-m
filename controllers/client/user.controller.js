@@ -102,6 +102,12 @@ module.exports.forgotPasswordPost = async(req, res) => {
     return;
   }
 
+  if(user.status === "inactive") {
+    req.flash("error", "Tài khoản đang bị khóa!");
+    res.redirect("back");
+    return;
+  }
+
   const otp = generateHelper.generateRandomNumber(6);
 
   //Lưu email, OTP vào database
@@ -154,4 +160,21 @@ module.exports.otpPasswordPost = async(req, res) => {
     req.flash("error", "Vui lòng thử lại!");
     res.redirect("back");
   }
+}
+
+// [GET] /user/password/resetPassword
+module.exports.resetPassword = async(req, res) => {
+  res.render("client/pages/user/reset-password", {
+    pageTitle: "Thay dổi mật khẩu",
+  });
+}
+
+// [PATCH] /user/password/resetPassword
+module.exports.resetPasswordPatch = async(req, res) => {
+  const newPassword = req.body.password;
+  const tokenUser = req.cookies.tokenUser;
+
+  await User.updateOne({tokenUser: tokenUser}, {password: md5(newPassword)});
+
+  res.redirect("/");
 }
