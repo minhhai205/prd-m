@@ -3,6 +3,7 @@ const User = require("../../models/user.model");
 const ForgotPassword = require("../../models/forgot-password");
 
 const generateHelper = require("../../helpers/generate");
+const sendEmailHelper = require("../../helpers/sendEmail");
 
 // [GET] /user/register
 module.exports.register = (req, res) => {
@@ -121,6 +122,9 @@ module.exports.forgotPasswordPost = async(req, res) => {
   await forgotPassword.save();
 
   // Gửi mã OTP qua email của user ???
+  const subject = "Lấy lại mật khẩu.";
+  const text = `Mã OTP xác thực tài khoản của bạn là: ${otp}.`;
+  sendEmailHelper.sendEmail(email, subject, text);
 
   res.redirect(`/user/password/otp?email=${email}`);
 }
