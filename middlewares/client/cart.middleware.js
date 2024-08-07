@@ -8,11 +8,16 @@ module.exports.cart = async(req, res, next) => {
     res.cookie("cartId", cart.id, {expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 100)});
   }
   else {
-    const cart = await Cart.findOne({
-      _id: req.cookies.cartId
-    });
-
-    res.locals.miniCart = cart;
+    try {
+      const cart = await Cart.findOne({
+        _id: req.cookies.cartId
+      });
+  
+      res.locals.miniCart = cart;
+    } catch (error) {
+      req.flash("error", "Bạn vui lòng không chỉnh sửa hệ thống!");
+      res.clearCookie("cartId");
+    }
   }
 
   next();

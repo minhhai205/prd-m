@@ -179,7 +179,11 @@ module.exports.resetPasswordPatch = async(req, res) => {
   const newPassword = req.body.password;
   const tokenUser = req.cookies.tokenUser;
 
-  await User.updateOne({tokenUser: tokenUser}, {password: md5(newPassword)});
+  try {
+    await User.updateOne({tokenUser: tokenUser}, {password: md5(newPassword)});
+  } catch (error) {
+    req.flash("Đổi mật khẩu thất bại!");
+  }
 
   res.redirect("/");
 }
