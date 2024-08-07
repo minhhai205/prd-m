@@ -30,7 +30,7 @@ module.exports.registerPost = async(req, res) => {
     const user = new User(req.body);
     await user.save();
   
-    res.cookie("tokenUser", user.tokenUser);
+    res.cookie("tokenUser", user.tokenUser, {expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 100)});
   
     res.redirect("/");
   }
@@ -72,7 +72,7 @@ module.exports.loginPost = async(req, res) => {
     return;
   }
 
-  res.cookie("tokenUser", user.tokenUser);
+  res.cookie("tokenUser", user.tokenUser, {expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 100)});
 
   res.redirect("/");
 
@@ -156,7 +156,7 @@ module.exports.otpPasswordPost = async(req, res) => {
 
     const user = await User.findOne({ email: email });
 
-    res.cookie("tokenUser", user.tokenUser);
+    res.cookie("tokenUser", user.tokenUser, {expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 100)});
 
     res.redirect("/user/password/reset");
 
