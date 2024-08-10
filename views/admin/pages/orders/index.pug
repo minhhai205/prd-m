@@ -1,0 +1,55 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert
+block main 
+  h1 Danh sách đơn hàng
+
+  +alert-success(5000)
+  +alert-error(5000)
+  
+  .card.mb-3
+    .card-header Danh sách
+    .card-body
+     
+      table(
+        class="table table-hover table-sm"
+      )
+        thead   
+          tr 
+            th Mã đơn hàng
+            th Khách hàng
+            th Sản phẩm
+            th SL 
+            th Tổng tiền
+            th Ngày tạo
+            th Trạng thái 
+        tbody
+          each item in orders
+            tr    
+              td #{item.id}
+              td 
+                | Họ tên: #{item.userInfo.fullName}
+                br
+                | Số điện thoại: #{item.userInfo.phone}
+                br
+                | Địa chỉ: #{item.userInfo.address}
+              td 
+                each product in item.products 
+                  | #{product.productInfo.title}
+                  br
+              td 
+                each product in item.products 
+                  | #{product.quantity}
+                  br
+              td #{item.totalPrice}
+              td #{item.createdAtFormat}
+              td 
+                a(
+                    href="javascript:;" 
+                    data-status=item.status
+                    data-id=item.id
+                    button-change-status
+                    class="badge badge-success"
+                  ) #{item.status}
+                
+
+        
