@@ -38,7 +38,7 @@ module.exports.index = async(req, res) => {
   // Panigation
   let objectPagination = {
     currentPage: 1,
-    limitItems: 8
+    limitItems: 6
   }
 
   const countProducts = await Product.countDocuments(find);
