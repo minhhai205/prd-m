@@ -27,6 +27,6 @@ module.exports = (app) => {
 
   app.use(PATH_ADMIN + "/profile", authMiddleware.requireAuth, profileRoutes);
 
-  app.use(PATH_ADMIN + "/orders", orderRoutes);
+  app.use(PATH_ADMIN + "/orders", authMiddleware.requireAuth, orderRoutes);
 
 }
